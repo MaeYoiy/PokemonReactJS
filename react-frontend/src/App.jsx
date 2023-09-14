@@ -4,12 +4,18 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import axios from 'axios'
 
+//components
+import FavPoke from './components/favPoke'
+
 function App() {
   // const [count, setCount] = useState(0)
   const [poke, setPoke] = useState(""); //ค่าเริ่มต้นเป็น String เปล่า
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [number, setNumber] = useState(1);
+
+  //state for favorite pokemon
+  const [fav, setFav] = useState([]) //Array เพราะเราต้องการเก็บตัวที่เป็น Array
 
   //useEffect = fectch data จากภายนอก react เช่น fetch data จาก api
   //โดย useEffect ให้มันรันเพียงครั้งแรกครั้งเดียว
@@ -70,11 +76,20 @@ function App() {
 
   console.log("Pokemon id :", number);
 
+  //function for Add to favorite
+  const addFav = () => {
+                          // "..." เป็นการส่ง state ตัวเก่า พร้อมกับ update state ตัวใหม่ 
+    setFav((oldState) => [...oldState, poke]) //oldState คือ poke state ตัวเก่า และ poke คือ poke state ตัวใหม่
+  }
+
+  console.log("Your favorite poke :", fav);
+
   return (
     <>
      {/* ถ้า state poke มีค่าเป็น true มันจะเข้าถึงชื่อของมัน */}
      {/* "?" เป็นการ check ว่ามีมั้ย */}
      <h1>{poke?.name}</h1> 
+     <button onClick={addFav}>Add to favorite</button> <br/>
      <img src={poke?.sprites?.other?.home?.front_default} alt={poke?.name} />
 
      {/* ability เป็น Array ซึ่งเราไม่สามารถเข้าถึงข้อมูลได้ โดยที่ทำแบบด้านบน (เข้าถึงชื่อกับรูปภาพ) 
@@ -88,6 +103,10 @@ function App() {
      </ul>
      <button onClick={prevPoke}>Previous</button>
      <button onClick={nextPoke}>Next</button>
+     <div>
+      {/* ส่งค่า props "fav" ไปที่ component/favPoke.jsx */}
+      <FavPoke fav={fav}/> 
+     </div>
     </>
   )
 }
