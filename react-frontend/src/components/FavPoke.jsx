@@ -1,4 +1,6 @@
 import React from 'react'
+import LikePoke from './LikePoke'
+
                     //มีการส่ง props และก็ต้องมีการรับ props
 function FavPoke({ fav }) {
   return (
@@ -9,6 +11,7 @@ function FavPoke({ fav }) {
             <div key={idx}>
                 <h3>{data?.name}</h3>
                 <img src={data?.sprites?.other?.home?.front_default} alt={data?.name}/>
+                <LikePoke/>
             </div>
         ))}
     </div>
