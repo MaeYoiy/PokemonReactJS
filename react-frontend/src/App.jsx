@@ -85,8 +85,10 @@ function App() {
   console.log("Your favorite poke :", fav);
 
   return (
-    <>
-     {/* ถ้า state poke มีค่าเป็น true มันจะเข้าถึงชื่อของมัน */}
+    <div className='max-w-5xl p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"'>
+    <div className='grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2'>
+     <div>
+      {/* ถ้า state poke มีค่าเป็น true มันจะเข้าถึงชื่อของมัน */}
      {/* "?" เป็นการ check ว่ามีมั้ย */}
      <h1>{poke?.name}</h1> 
      <button onClick={addFav}>Add to favorite</button> <br/>
@@ -103,11 +105,15 @@ function App() {
      </ul>
      <button onClick={prevPoke}>Previous</button>
      <button onClick={nextPoke}>Next</button>
+     </div>
+
      <div>
+      <h2>Your favorite Pokemons</h2>
       {/* ส่งค่า props "fav" ไปที่ component/favPoke.jsx */}
       <FavPoke fav={fav}/> 
      </div>
-    </>
+    </div>
+    </div>
   )
 }
 

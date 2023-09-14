@@ -2,8 +2,8 @@ import React from 'react'
                     //มีการส่ง props และก็ต้องมีการรับ props
 function FavPoke({ fav }) {
   return (
-    <div>
-        <h2>Your favorite Pokemons</h2>
+    <div className='grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4'>
+        
         {/* ใช้ map เพราะเป็น Array */}
         {fav?.map((data, idx) => (
             <div key={idx}>
