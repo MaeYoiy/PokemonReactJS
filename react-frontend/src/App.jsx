@@ -9,6 +9,7 @@ function App() {
   const [poke, setPoke] = useState(""); //ค่าเริ่มต้นเป็น String เปล่า
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [number, setNumber] = useState(1);
 
   //useEffect = fectch data จากภายนอก react เช่น fetch data จาก api
   //โดย useEffect ให้มันรันเพียงครั้งแรกครั้งเดียว
@@ -22,8 +23,8 @@ function App() {
       try {
 
         setLoading(true);
-
-        let response = await axios.get(`https://pokeapi.co/api/v2/pokemon/1`, { //ใช้ await เพราะเป็น async
+                                                                          //เป็นการทำแบบ Dynamic
+        let response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${number}`, { //ใช้ await เพราะเป็น async
           signal: abortController.signal
         });
 
@@ -45,25 +46,48 @@ function App() {
     
     return () => abortController.abort(); //return ตึง abortController มาและใช้ method abort
 
-  }, []) // [] = empty array dependency ซึ่งถ้าไม่ใส่มันก็จะรันตลอด อาจจะทำให้ program เรา crash ได้
+  }, [number]) // [] = empty array dependency ซึ่งถ้าไม่ใส่มันก็จะรันตลอด อาจจะทำให้ program เรา crash ได้
+              //พอมีการกดที่ function nextPoke หรือ prePoke ค่าของ number จะมีการเปลี่ยนแปลงและทำให้ function loadPoke นั้น มีค่าของ number ที่ update แล้ว
 
   console.log(poke);
+
+  //function for Button Next and Previous
+  const prevPoke = () => {
+    //number return number-1
+    setNumber((number) => number - 1)
+
+  }
+
+  // const nextPoke = () => {
+  //   // setNumber(number + 1)
+  //   setNumber((number) => number + 1)
+
+  // }
+
+  function nextPoke() {
+    setNumber(number + 1)
+  }
+
+  console.log("Pokemon id :", number);
 
   return (
     <>
      {/* ถ้า state poke มีค่าเป็น true มันจะเข้าถึงชื่อของมัน */}
+     {/* "?" เป็นการ check ว่ามีมั้ย */}
      <h1>{poke?.name}</h1> 
-     <img src={poke?.sprites.other.home.front_default} alt={poke?.name} />
+     <img src={poke?.sprites?.other?.home?.front_default} alt={poke?.name} />
 
      {/* ability เป็น Array ซึ่งเราไม่สามารถเข้าถึงข้อมูลได้ โดยที่ทำแบบด้านบน (เข้าถึงชื่อกับรูปภาพ) 
      เราจะเข้าถึงโดยมีการ search แบบ map ด้วยการใช้ loop */}
      <ul>
       {/* map รับค่า 2 parameter คือ abil, indx  */}
-      {poke?.abilities.map((abil, indx) => (
+      {poke?.abilities?.map((abil, indx) => (
         // รูปแบบการ serch จะเป็น abilities.0.ability.name
-        <li key={indx}>{abil.ability.name}</li>
+        <li key={indx}>{abil.ability?.name}</li>
       ))}
      </ul>
+     <button onClick={prevPoke}>Previous</button>
+     <button onClick={nextPoke}>Next</button>
     </>
   )
 }
